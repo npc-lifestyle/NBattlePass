@@ -1,0 +1,9 @@
+name: NBattlepass
+version: '${version}'
+main: wtf.n1zamu.NBattlePass
+api-version: '1.16'
+authors: [n1zamu]
+commands:
+  nBattlePass:
+    aliases:
+      - bp
