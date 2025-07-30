@@ -14,7 +14,7 @@ public class ClearCommandObject implements CommandObject {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!sender.hasPermission("nBattlePass.admin")) {
+        if (!sender.hasPermission("nbattlepass.admin")) {
             return;
         }
         NBattlePass.getInstance().getPlayerDataBase().clear();

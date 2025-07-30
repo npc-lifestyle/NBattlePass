@@ -71,7 +71,7 @@ public abstract class PlayerDataBase implements DataBase {
     public void giveSubscribe(String name) {
         User user = LuckPermsProvider.get().getUserManager().getUser(name);
         if (user != null) {
-            user.data().add(Node.builder("nBattlePass.subscribe").build());
+            user.data().add(Node.builder("nbattlepass.subscribe").build());
         }
         try {
             int playerExp = getExp(name);

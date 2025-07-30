@@ -15,7 +15,7 @@ public class SetExpCommandObject implements CommandObject {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!sender.hasPermission("nBattlePass.admin")) {
+        if (!sender.hasPermission("nbattlepass.admin")) {
             return;
         }
         if (args.length != 3) {
