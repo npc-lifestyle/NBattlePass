@@ -45,7 +45,7 @@ public class BattlePassHolder implements InventoryHolder {
         infoMeta.setDisplayName(ConfigUtil.getColoredString("battlePass.inventory.info.name"));
         Level currentBPLevel = LevelFormatUtil.getLevel(currentExp);
         String expBar = LevelFormatUtil.getExperienceBar(currentExp, currentBPLevel.getNeedExp());
-        String type = player.hasPermission("nBattlePass.subscribe") ? ChatColor.GOLD + "Платный" : ChatColor.GOLD + "Бесплатный";
+        String type = player.hasPermission("nbattlepass.subscribe") ? ChatColor.GOLD + "Платный" : ChatColor.GOLD + "Бесплатный";
         List<String> lore = new ArrayList<>();
         ConfigUtil.getColoredList("battlePass.inventory.info.lore").forEach(line -> lore.add(ChatColor.translateAlternateColorCodes('&', line
                 .replace("%currentExp%", String.valueOf(currentExp))

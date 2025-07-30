@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class BattlePassPlaceHolder extends PlaceholderExpansion {
     @Override
     public @NotNull String getIdentifier() {
-        return "nBattlePass";
+        return "nbattlepass";
     }
 
     @Override

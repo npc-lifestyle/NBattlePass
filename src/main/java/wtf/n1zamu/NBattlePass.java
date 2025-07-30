@@ -51,8 +51,8 @@ public final class NBattlePass extends JavaPlugin {
         saveDefaultConfig();
         saveResource("levels.yml", false);
         levelConfiguration = new LevelConfiguration();
-        getCommand("nBattlePass").setExecutor(new BattlePassCommand());
-        getCommand("nBattlePass").setTabCompleter(new BattlePassCommand());
+        getCommand("nbattlepass").setExecutor(new BattlePassCommand());
+        getCommand("nbattlepass").setTabCompleter(new BattlePassCommand());
         Arrays.asList(playerDataBase, questDataBase).forEach(DataBase::connect);
         playerExp = playerDataBase.getPlayerExp();
         Arrays.asList(new InventoryClickListener(), new PlayerJoinListener(),

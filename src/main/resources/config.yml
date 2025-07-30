@@ -1,4 +1,4 @@
-dataBase: "SQLite" # Доступны: SQLite, MySQL, H2, Postgress (кагда нибудь Мария ДБ и остальное дерьмо сюда дабавлю)
+dataBase: "SQLite" # Доступны: SQLite, MySQL, H2, PostgreSQL
 
 host: "localhost"
 port: 3306
@@ -52,13 +52,13 @@ placeBlocks:
     COAL_ORE: "угольной руды"
 
 message:
-  setUsage: "&6Используй: &f/nBattlePass set [Игрок] [Количество]"
-  giveUsage: "&6Используй &f/nBattlePass give [Игрок]"
+  setUsage: "&6Используй: &f/nbattlepass set [Игрок] [Количество]"
+  giveUsage: "&6Используй &f/nbattlepass give [Игрок]"
   playerDontOnline: "&cИгрок не онлайн!"
   successfullySet: "&aВы изменили опыт игрока %player% на %exp%"
   successfullyClear: "&aБазы данных успешно очищены!"
   successfullyGive: "&aПодписка успешно выдана!"
-  addUsage: "&6Используй &f/nBattlePass add [Уровень] [Тип]"
+  addUsage: "&6Используй &f/nbattlepass add [Уровень] [Тип]"
   unknownType: "&cНеизвестный тип, доступные: DEFAULT/SUBSCRIBE"
   notDigit: "&cУровень не является цифрой!"
 battlePass:
