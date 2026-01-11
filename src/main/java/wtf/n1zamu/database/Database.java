@@ -7,18 +7,20 @@ import wtf.n1zamu.quest.QuestObject;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-public interface DataBase {
+public abstract class Database {
     Cache<String, List<QuestObject>> questsCache = CacheBuilder.newBuilder()
+            .expireAfterAccess(1, TimeUnit.HOURS)
             .build();
 
-    void connect();
+    protected abstract void connect();
 
-    void disconnect();
+    protected abstract void disconnect();
 
-    Connection getConnection();
+    protected abstract Connection getConnection();
 
-    default Cache<String, List<QuestObject>> getQuestsCache() {
+    protected Cache<String, List<QuestObject>> getQuestsCache() {
         return questsCache;
     }
 }

@@ -1,11 +1,8 @@
-package wtf.n1zamu.config.object;
+package wtf.n1zamu.level;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.List;
 
 @AllArgsConstructor
 @Getter

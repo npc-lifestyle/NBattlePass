@@ -1,11 +1,13 @@
 package wtf.n1zamu.util;
 
+import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class PlayerUtil {
-    public static int getMaxCraftAmount(CraftingInventory inv) {
+@UtilityClass
+public class PlayerCraftUtility {
+    public int getMaxCraftAmount(CraftingInventory inv) {
         if (inv == null || inv.getResult() == null) {
             return 0;
         }
@@ -26,7 +28,7 @@ public class PlayerUtil {
         return resultCount * materialCount;
     }
 
-    public static int fits(ItemStack stack, Inventory inv) {
+    public int fits(ItemStack stack, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int result = 0;
         for (ItemStack is : contents) {

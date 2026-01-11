@@ -6,103 +6,81 @@ import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import wtf.n1zamu.command.BattlePassCommand;
-import wtf.n1zamu.config.impl.LevelConfiguration;
-import wtf.n1zamu.database.DataBase;
-import wtf.n1zamu.database.player.PlayerDataBase;
-import wtf.n1zamu.database.player.impl.MySQLDataBase;
-import wtf.n1zamu.database.player.impl.PostgressDataBase;
-import wtf.n1zamu.database.player.impl.SQLiteDataBase;
-import wtf.n1zamu.database.quest.QuestDataBase;
+import wtf.n1zamu.database.impl.PlayerDatabase;
+import wtf.n1zamu.database.impl.quest.QuestDatabase;
+import wtf.n1zamu.level.LevelConfiguration;
+
+import wtf.n1zamu.inventory.InventoryManager;
 import wtf.n1zamu.listener.ActionListener;
 import wtf.n1zamu.listener.InventoryClickListener;
 import wtf.n1zamu.listener.PlayerJoinListener;
 import wtf.n1zamu.placeholder.BattlePassPlaceHolder;
+import wtf.n1zamu.quest.QuestProgressHandler;
 import wtf.n1zamu.quest.impl.*;
-import wtf.n1zamu.quest.time.QuestTime;
+
 import wtf.n1zamu.token.TokenHandler;
 import wtf.n1zamu.token.impl.MobCoinPlusHandler;
 import wtf.n1zamu.token.impl.TokenManagerHandler;
-import wtf.n1zamu.util.TimeUtil;
 
 import java.util.Arrays;
-import java.util.Map;
 
-@FieldDefaults(level = AccessLevel.PUBLIC)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 public final class NBattlePass extends JavaPlugin {
+    PlayerDatabase playerDataBase;
+    QuestDatabase questDatabase;
     static NBattlePass INSTANCE;
-    PlayerDataBase playerDataBase;
-    QuestDataBase questDataBase;
+    InventoryManager inventoryManager;
     LevelConfiguration levelConfiguration;
-    Map<String, Integer> playerExp;
     TokenHandler handler;
 
     @Override
     public void onEnable() {
         INSTANCE = this;
-        try {
-            Class.forName("com.chup.mobcoinsplus.Main");
-            handler = new MobCoinPlusHandler();
-        } catch (ClassNotFoundException e) {
-            handler = new TokenManagerHandler();
-        }
-        playerDataBase = (PlayerDataBase) getByConfig("player");
-        questDataBase = (QuestDataBase) getByConfig("quests");
+        this.handler = Bukkit.getPluginManager().isPluginEnabled("TokenManager") ? new TokenManagerHandler() : new MobCoinPlusHandler();
+        this.playerDataBase = new PlayerDatabase();
+        this.questDatabase = new QuestDatabase();
+        playerDataBase.connect();
+        questDatabase.connect();
         saveDefaultConfig();
-        saveResource("levels.yml", false);
-        levelConfiguration = new LevelConfiguration();
-        getCommand("nbattlepass").setExecutor(new BattlePassCommand());
-        getCommand("nbattlepass").setTabCompleter(new BattlePassCommand());
-        Arrays.asList(playerDataBase, questDataBase).forEach(DataBase::connect);
-        playerExp = playerDataBase.getPlayerExp();
-        Arrays.asList(new InventoryClickListener(), new PlayerJoinListener(),
-                        new ActionListener(new BlockBreakQuest(), new BlockPlaceQuest(), new CraftQuest(), new KillQuest(), new EatQuest(), new ExperienceQuest()))
-                .forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
+        this.loadManagers();
+        this.registerCommands();
+        this.registerListeners();
         new BattlePassPlaceHolder().register();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> playerExp = playerDataBase.getPlayerExp(), 0, 300 * 20L);
-
-        Bukkit.getScheduler().runTaskTimer(this, () -> {
-            this.getQuestDataBase().getQuestsCache().asMap().clear();
-            this.getQuestDataBase().fillCache();
-            Bukkit.getLogger().info("[NBattlePass] Перезапись кэша!");
-        }, 20 * 60, 15 * 60 * 20);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> this.getQuestDataBase().clear(QuestTime.DAY), TimeUtil.calculateTimeToNextDay() * 20L);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> this.getQuestDataBase().clear(QuestTime.WEEK), TimeUtil.calculateTimeToSaturday() * 20L);
     }
 
     @Override
     public void onDisable() {
-        Arrays.asList(playerDataBase, questDataBase).forEach(DataBase::disconnect);
         Bukkit.getScheduler().cancelTasks(this);
     }
 
-    public static NBattlePass getInstance() {
-        return INSTANCE;
+    private void registerCommands() {
+        BattlePassCommand battlePassCommand = new BattlePassCommand();
+        battlePassCommand.register();
     }
 
-    private DataBase getByConfig(String type) {
-        String dbType = getConfig().getString("dataBase");
-        if (getConfig().getString("dataBase") == null) {
-            Bukkit.getLogger().info("Ошибка");
-            return null;
-        }
-        DataBase dataBase = null;
+    private void registerListeners() {
+        Bukkit.getPluginManager().registerEvents(new InventoryClickListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ActionListener(
+                new BlockBreakQuest(),
+                new BlockPlaceQuest(),
+                new CraftQuest(),
+                new KillQuest(),
+                new EatQuest(),
+                new ExperienceQuest(),
+                new QuestProgressHandler()
+        ), this);
+    }
 
-        switch (dbType.toLowerCase()) {
-            case "sqlite":
-                dataBase = type.equalsIgnoreCase("player") ? new SQLiteDataBase() : new wtf.n1zamu.database.quest.impl.SQLiteDataBase();
-                break;
-            case "mysql":
-                dataBase = type.equalsIgnoreCase("player") ? new MySQLDataBase() : new wtf.n1zamu.database.quest.impl.MySQLDataBase();
-                break;
-            case "postgress":
-                dataBase = type.equalsIgnoreCase("player") ? new PostgressDataBase() : new wtf.n1zamu.database.quest.impl.PostgressDataBase();
-                break;
-            default:
-                Bukkit.getLogger().severe("[NBattlePass] Неизвестный тип базы данных: " + dbType);
-                break;
-        }
+    private void loadManagers() {
+        this.levelConfiguration = new LevelConfiguration();
+        this.inventoryManager = new InventoryManager();
+        this.inventoryManager.load();
+    }
 
-        return dataBase;
+
+    public static NBattlePass getInstance() {
+        return INSTANCE;
     }
 }

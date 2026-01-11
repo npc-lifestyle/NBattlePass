@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import wtf.n1zamu.inventory.BattlePassHolder;
+import wtf.n1zamu.inventory.holder.BattlePassHolder;
 
 public class InventoryClickListener implements Listener {
     @EventHandler

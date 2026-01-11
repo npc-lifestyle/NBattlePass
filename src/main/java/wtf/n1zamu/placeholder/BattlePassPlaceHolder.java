@@ -34,13 +34,12 @@ public class BattlePassPlaceHolder extends PlaceholderExpansion {
         }
         if (identifier.startsWith("top_name_")) {
             return getTopPlayer(identifier, Integer.parseInt(identifier.replace("top_name_", "")));
-
         }
         return identifier;
     }
 
     private String getTopPlayer(String identifier, int place) {
-        Map<String, Integer> playerMap = NBattlePass.getInstance().getPlayerExp();
+        Map<String, Integer> playerMap = NBattlePass.getInstance().getPlayerDataBase().getPlayerExp();
         if (playerMap.isEmpty()) return ChatColor.GRAY + "Loading...";
 
         List<Map.Entry<String, Integer>> sortedPlayers = playerMap.entrySet()

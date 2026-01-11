@@ -1,4 +1,4 @@
-package wtf.n1zamu.quest.time;
+package wtf.n1zamu.quest.enums;
 
 public enum QuestTime {
     DAY,

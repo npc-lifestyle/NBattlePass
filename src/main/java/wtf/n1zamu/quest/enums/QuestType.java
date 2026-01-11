@@ -1,18 +1,16 @@
-package wtf.n1zamu.quest.type;
+package wtf.n1zamu.quest.enums;
 
 import lombok.Getter;
 
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import wtf.n1zamu.NBattlePass;
-import wtf.n1zamu.util.ConfigUtil;
+import wtf.n1zamu.util.ConfigUtility;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 @Getter
 public enum QuestType {
@@ -36,7 +34,7 @@ public enum QuestType {
             Bukkit.getLogger().info("[NBattlePass] Дасвидос! Мапы не найдено!");
             this.identifier = identifier;
             this.entityTypes = map;
-            this.name = ConfigUtil.getColoredString(identifier + ".name");
+            this.name = ConfigUtility.getColoredString(identifier + ".name");
             this.isEntity = isEntity;
             return;
         }
@@ -47,7 +45,7 @@ public enum QuestType {
         });
         this.identifier = identifier;
         this.entityTypes = map;
-        this.name = ConfigUtil.getColoredString(identifier + ".name");
+        this.name = ConfigUtility.getColoredString(identifier + ".name");
         this.isEntity = isEntity;
     }
 
@@ -58,7 +56,7 @@ public enum QuestType {
             Bukkit.getLogger().info("[NBattlePass] Дасвидос! Мапы не найдено!");
             this.identifier = identifier;
             this.materials = map;
-            this.name = ConfigUtil.getColoredString(identifier + ".name");
+            this.name = ConfigUtility.getColoredString(identifier + ".name");
             this.isEntity = false;
             return;
         }
@@ -69,7 +67,7 @@ public enum QuestType {
         });
         this.identifier = identifier;
         this.materials = map;
-        this.name = ConfigUtil.getColoredString(identifier + ".name");
+        this.name = ConfigUtility.getColoredString(identifier + ".name");
         this.isEntity = false;
     }
 }

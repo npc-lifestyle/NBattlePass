@@ -1,5 +1,6 @@
 package wtf.n1zamu.util;
 
+import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 
 import java.time.DayOfWeek;
@@ -8,14 +9,20 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjusters;
 
+@UtilityClass
 public class TimeUtil {
-    private static int questReloadHour = ConfigUtil.getInt("questReloadHour");
-    private static int questReloadMinute = ConfigUtil.getInt("questReloadMinute");
+    private static final int RELOAD_HOUR;
+    private static final int RELOAD_MINUTE;
 
-    public static long calculateTimeToSaturday() {
+    static {
+        RELOAD_HOUR = ConfigUtility.getInt("questReloadHour");
+        RELOAD_MINUTE = ConfigUtility.getInt("questReloadMinute");
+    }
+
+    public long calculateTimeToSaturday() {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Moscow"));
 
-        ZonedDateTime nextSaturday = now.withHour(questReloadHour).withMinute(questReloadMinute).withSecond(0).withNano(0);
+        ZonedDateTime nextSaturday = now.withHour(RELOAD_HOUR).withMinute(RELOAD_MINUTE).withSecond(0).withNano(0);
 
         if (now.getDayOfWeek().getValue() == 6 && now.isAfter(nextSaturday)) {
             nextSaturday = nextSaturday.plusWeeks(1);
@@ -30,13 +37,13 @@ public class TimeUtil {
         return secondsUntilNextSaturday;
     }
 
-    public static long calculateTimeToNextDay() {
+    public long calculateTimeToNextDay() {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Moscow"));
         ZonedDateTime nextUpdate;
-        if (now.getHour() < questReloadHour) {
-            nextUpdate = now.withHour(questReloadHour).withMinute(questReloadMinute).withSecond(0).withNano(0);
+        if (now.getHour() < RELOAD_HOUR) {
+            nextUpdate = now.withHour(RELOAD_HOUR).withMinute(RELOAD_MINUTE).withSecond(0).withNano(0);
         } else {
-            nextUpdate = now.plusDays(1).withHour(questReloadHour).withMinute(questReloadMinute).withSecond(0).withNano(0);
+            nextUpdate = now.plusDays(1).withHour(RELOAD_HOUR).withMinute(RELOAD_MINUTE).withSecond(0).withNano(0);
         }
         long secondsUntilNextDayAtSixAM = Duration.between(now, nextUpdate).getSeconds();
         Bukkit.getLogger().info("До обновления ежедневных квестов: " + secondsUntilNextDayAtSixAM + " секунд!");

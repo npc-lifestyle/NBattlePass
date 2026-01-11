@@ -3,8 +3,8 @@ package wtf.n1zamu.command.impl;
 import org.bukkit.command.CommandSender;
 import wtf.n1zamu.NBattlePass;
 import wtf.n1zamu.command.CommandObject;
-import wtf.n1zamu.quest.time.QuestTime;
-import wtf.n1zamu.util.ConfigUtil;
+import wtf.n1zamu.quest.enums.QuestTime;
+import wtf.n1zamu.util.ConfigUtility;
 
 public class ClearCommandObject implements CommandObject {
     @Override
@@ -17,10 +17,6 @@ public class ClearCommandObject implements CommandObject {
         if (!sender.hasPermission("nbattlepass.admin")) {
             return;
         }
-        NBattlePass.getInstance().getPlayerDataBase().clear();
-        NBattlePass.getInstance().getQuestDataBase().clear(QuestTime.DAY);
-        NBattlePass.getInstance().getQuestDataBase().clear(QuestTime.WEEK);
-        NBattlePass.getInstance().getQuestDataBase().getQuestsCache().asMap().clear();
-        sender.sendMessage(ConfigUtil.getColoredString("message.successfullyClear"));
+        sender.sendMessage(ConfigUtility.getColoredString("message.successfullyClear"));
     }
 }

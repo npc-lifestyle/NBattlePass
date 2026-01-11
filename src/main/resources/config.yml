@@ -61,59 +61,6 @@ message:
   addUsage: "&6Используй &f/nbattlepass add [Уровень] [Тип]"
   unknownType: "&cНеизвестный тип, доступные: DEFAULT/SUBSCRIBE"
   notDigit: "&cУровень не является цифрой!"
-battlePass:
-  inventory:
-    name: "§fꈁꀀꈂꌠꈂꀁ§0ꈃꄔ"
-    info:
-      modelData: 10001
-      name: "&r"
-      lore:
-        - "  &6Ваш боевой пропуск:"
-        - "    "
-        - "    &7Ваш ник: &6%name%"
-        - "    &7Уровень боевого пропуска: &6%currentLevel%"
-        - "    &7Всего заработано опыта: &6%currentExp% &fꐇ"
-        - "    &7Тип боевого пропуска: &6%type%"
-        - ""
-        - ""
-        - "  &7Очков до следующего уровня: &6%expToNext%"
-        - "    &8[%expBar%&8]"
-        - "    &7%currentExp%                                              &7%expToNext%"
-        - ""
-        - "&8Выполняя ежедневные и еженедельные задания"
-        - "&8Вы получаете очки опыта боевого пропуска"
-
-      slot: 4
-    dailyQuest:
-      name: "&r"
-      lore:
-        - "  &6Ежедневное задание"
-        - ""
-        - "  %description%"
-        - "&r"
-        - "  &7Прогресс &6%current%&8/&6%need%"
-        - "  &7Награда: &6%reward% &fꐇ"
-        - "  &7Статус: %status%"
-        - "&r"
-        - "  &8Ежедневное задание  "
-        - "  &8обновляется каждую ночь  "
-        - "&r"
-      startSlot: 28
-    weeklyQuest:
-      name: "&r"
-      lore:
-        - "  &6Еженедельное задание"
-        - ""
-        - "  %description%"
-        - "&r"
-        - "  &7Прогресс &6%current%&8/&6%need%"
-        - "  &7Награда: &6%reward% &fꐇ"
-        - "  &7Статус: %status%"
-        - "&r"
-        - "  &8Ежедневное задание  "
-        - "  &8обновляется каждую ночь  "
-        - "&r"
-      startSlot: 32
 expForWeek: 1150
 expForDaily: 230
 tokensForDaily: 75

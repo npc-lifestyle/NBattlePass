@@ -3,7 +3,7 @@ package wtf.n1zamu.command.impl;
 import org.bukkit.command.CommandSender;
 import wtf.n1zamu.NBattlePass;
 import wtf.n1zamu.command.CommandObject;
-import wtf.n1zamu.util.ConfigUtil;
+import wtf.n1zamu.util.ConfigUtility;
 
 public class GiveCommandObject implements CommandObject {
     @Override
@@ -17,12 +17,12 @@ public class GiveCommandObject implements CommandObject {
             return;
         }
         if (args.length != 2) {
-            sender.sendMessage(ConfigUtil.getColoredString("message.giveUsage"));
+            sender.sendMessage(ConfigUtility.getColoredString("message.giveUsage"));
             return;
         }
 
         String playerName = args[1];
         NBattlePass.getInstance().getPlayerDataBase().giveSubscribe(playerName);
-        sender.sendMessage(ConfigUtil.getColoredString("message.successfullyGive"));
+        sender.sendMessage(ConfigUtility.getColoredString("message.successfullyGive"));
     }
 }

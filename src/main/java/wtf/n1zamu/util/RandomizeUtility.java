@@ -1,20 +1,31 @@
 package wtf.n1zamu.util;
 
 
-import org.bukkit.Bukkit;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import wtf.n1zamu.NBattlePass;
 import wtf.n1zamu.quest.QuestObject;
-import wtf.n1zamu.quest.status.QuestStatus;
-import wtf.n1zamu.quest.time.QuestTime;
-import wtf.n1zamu.quest.type.QuestType;
+import wtf.n1zamu.quest.enums.QuestStatus;
+import wtf.n1zamu.quest.enums.QuestTime;
+import wtf.n1zamu.quest.enums.QuestType;
 
 import java.util.*;
 
-public class RandomizeUtil {
-    public static QuestObject getRandomQuest(QuestTime time) {
+@UtilityClass
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class RandomizeUtility {
+    List<Integer> dayCount, weekCount;
+
+    static {
+        dayCount = NBattlePass.getInstance().getConfig().getIntegerList("dayQuestValues");
+        weekCount = NBattlePass.getInstance().getConfig().getIntegerList("weekQuestValues");
+    }
+
+    public QuestObject getRandomQuest(QuestTime time) {
         QuestObject questObject;
         QuestType type = getRandomQuestType();
         if (type.getEntityTypes() != null) {
@@ -24,6 +35,15 @@ public class RandomizeUtil {
         }
         return questObject;
     }
+
+    private int getRandomCount(QuestTime questTime) {
+        if (questTime == QuestTime.DAY) {
+            return dayCount.get(new Random().nextInt(dayCount.size()));
+        } else {
+            return weekCount.get(new Random().nextInt(weekCount.size()));
+        }
+    }
+
 
     public static String getNameByQuest(QuestObject questObject) {
         StringBuilder finalName = new StringBuilder();
@@ -49,27 +69,15 @@ public class RandomizeUtil {
         return finalName.append(start).append(" ").append(questObject.getNeedExp()).append(" ").append(objectName).toString();
     }
 
-    private static int getRandomCount(QuestTime questTime) {
-        List<Integer> dayCount = NBattlePass.getInstance().getConfig().getIntegerList("dayQuestValues");
-        List<Integer> weekCount = NBattlePass.getInstance().getConfig().getIntegerList("weekQuestValues");
-        if (questTime == QuestTime.DAY) {
-            return dayCount.get(new Random().nextInt(dayCount.size()));
-        } else {
-            return weekCount.get(new Random().nextInt(weekCount.size()));
-        }
-    }
-
-    private static QuestType getRandomQuestType() {
+    private QuestType getRandomQuestType() {
         return QuestType.values()[new Random().nextInt(QuestType.values().length)];
     }
 
-    private static EntityType getRandomEntity(QuestType questType) {
-        Bukkit.getLogger().info(questType.getEntityTypes().toString());
+    private EntityType getRandomEntity(QuestType questType) {
         return (EntityType) questType.getEntityTypes().keySet().toArray()[new Random().nextInt(questType.getEntityTypes().keySet().toArray().length)];
     }
 
-    private static Material getMaterial(QuestType questType) {
-        Bukkit.getLogger().info(questType.getMaterials().toString());
+    private Material getMaterial(QuestType questType) {
         return (Material) questType.getMaterials().keySet().toArray()[new Random().nextInt(questType.getMaterials().size())];
     }
 }

@@ -5,9 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
-import wtf.n1zamu.quest.status.QuestStatus;
-import wtf.n1zamu.quest.time.QuestTime;
-import wtf.n1zamu.quest.type.QuestType;
+import wtf.n1zamu.quest.enums.QuestStatus;
+import wtf.n1zamu.quest.enums.QuestTime;
+import wtf.n1zamu.quest.enums.QuestType;
 
 @Getter
 @ToString
