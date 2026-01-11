@@ -17,6 +17,9 @@ public class ClearCommandObject implements CommandObject {
         if (!sender.hasPermission("nbattlepass.admin")) {
             return;
         }
+        NBattlePass.getInstance().getQuestDatabase().clear(QuestTime.DAY);
+        NBattlePass.getInstance().getQuestDatabase().clear(QuestTime.WEEK);
+        NBattlePass.getInstance().getPlayerDataBase().clear();
         sender.sendMessage(ConfigUtility.getColoredString("message.successfullyClear"));
     }
 }

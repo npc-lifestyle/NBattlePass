@@ -12,7 +12,7 @@ import java.util.*;
 public class LevelConfiguration {
     private static final List<Level> levels = new ArrayList<>();
 
-    public LevelConfiguration() {
+    static {
         File configurationFile = new File(
                 NBattlePass.getInstance().getDataFolder(),
                 "levels.yml"

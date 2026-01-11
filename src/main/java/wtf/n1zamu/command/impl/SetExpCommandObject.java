@@ -1,11 +1,8 @@
 package wtf.n1zamu.command.impl;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import wtf.n1zamu.NBattlePass;
 import wtf.n1zamu.command.CommandObject;
 import wtf.n1zamu.util.ConfigUtility;
-import wtf.n1zamu.util.ProgressUtility;
 
 public class SetExpCommandObject implements CommandObject {
     @Override

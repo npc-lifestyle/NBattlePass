@@ -17,13 +17,6 @@ public class ConfigUtility {
         return NBattlePass.getInstance().getConfig().getString(path);
     }
 
-    public List<String> getColoredList(String path) {
-        List<String> formattedList = new ArrayList<>();
-        NBattlePass.getInstance().getConfig().getStringList(path)
-                .forEach(line -> formattedList.add(ChatColor.translateAlternateColorCodes('&', line)));
-        return formattedList;
-    }
-
     public int getInt(String path) {
         return NBattlePass.getInstance().getConfig().getInt(path);
     }

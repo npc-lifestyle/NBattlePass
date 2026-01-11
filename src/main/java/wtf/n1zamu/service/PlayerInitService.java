@@ -9,6 +9,7 @@ import wtf.n1zamu.quest.QuestObject;
 import wtf.n1zamu.quest.enums.QuestTime;
 import wtf.n1zamu.util.RandomizeUtility;
 
+import java.util.Arrays;
 import java.util.List;
 
 public final class PlayerInitService {
@@ -24,13 +25,11 @@ public final class PlayerInitService {
         List<QuestObject> quests = questDb.getQuests(player.getName(), QuestTime.DAY);
         if (!quests.isEmpty()) return;
         playerDb.addNewPlayer(name);
-
-        initQuests(name, QuestTime.DAY, 3);
-        initQuests(name, QuestTime.WEEK, 3);
+        Arrays.stream(QuestTime.values()).forEach(time -> initQuests(name, time));
     }
 
-    private void initQuests(String player, QuestTime time, int amount) {
-        for (int i = 0; i < amount; i++) {
+    private void initQuests(String player, QuestTime time) {
+        for (int i = 0; i < 3; i++) {
             val quest = RandomizeUtility.getRandomQuest(time);
             if (questDb.hasQuest(player, quest.getType())) {
                 i--;
